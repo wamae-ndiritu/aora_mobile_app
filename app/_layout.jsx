@@ -1,12 +1,12 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React, { useEffect } from 'react'
-import { SplashScreen, Stack } from 'expo-router'
-import { useFonts } from 'expo-font';
+import { StyleSheet, Text, View } from "react-native";
+import React, { useEffect } from "react";
+import { SplashScreen, Stack } from "expo-router";
+import { useFonts } from "expo-font";
+import GlobalProvider from "../context/GlobalProvider";
 
 SplashScreen.preventAutoHideAsync();
 
 const RootLayout = () => {
-
   const [fontsLaoded, error] = useFonts({
     "Poppins-Black": require("../assets/fonts/Poppins-Black.ttf"),
     "Poppins-Bold": require("../assets/fonts/Poppins-Bold.ttf"),
@@ -17,31 +17,33 @@ const RootLayout = () => {
     "Poppins-Regular": require("../assets/fonts/Poppins-Regular.ttf"),
     "Poppins-SemiBold": require("../assets/fonts/Poppins-SemiBold.ttf"),
     "Poppins-Thin": require("../assets/fonts/Poppins-Thin.ttf"),
-  }); 
+  });
 
   useEffect(() => {
     if (error) throw error;
     if (fontsLaoded) SplashScreen.hideAsync();
-    if (!fontsLaoded && !error) return null;
-  }, [fontsLaoded, error])
-  return (
-    <Stack>
-      <Stack.Screen name='index' options={{ headerShown: false }} />
-      <Stack.Screen name='(auth)' options={{ headerShown: false }} />
-      <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
-      <Stack.Screen name='/search/[query]' options={{ headerShown: false }} />
-    </Stack>
-  );
-  
-}
+  }, [fontsLaoded, error]);
 
-export default RootLayout
+  if (!fontsLaoded && !error) return null;
+  return (
+    <GlobalProvider>
+      <Stack>
+        <Stack.Screen name='index' options={{ headerShown: false }} />
+        <Stack.Screen name='(auth)' options={{ headerShown: false }} />
+        <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
+        {/* <Stack.Screen name='/search/[query]' options={{ headerShown: false }} /> */}
+      </Stack>
+    </GlobalProvider>
+  );
+};
+
+export default RootLayout;
 
 const styles = StyleSheet.create({
-    container: {
-        display: 'flex',
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center' 
-    }
-})
+  container: {
+    display: "flex",
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});
