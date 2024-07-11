@@ -8,6 +8,7 @@ import EmptyState from "../../components/EmptyState";
 import { getAllPosts, getLatestPosts } from "../../lib/appwrite";
 import useAppwrite from "../../lib/useAppwrite";
 import VideoCard from "../../components/VideoCard";
+import { StatusBar } from "expo-status-bar";
 
 const Home = () => {
   const {data: posts, refetch} = useAppwrite(getAllPosts);
@@ -38,25 +39,37 @@ const Home = () => {
                   JSMastery
                 </Text>
               </View>
-              <View className="mt-1.5">
-                <Image source={images.logoSmall} className="w-9 h-10" resizeMode='contain' />
+              <View className='mt-1.5'>
+                <Image
+                  source={images.logoSmall}
+                  className='w-9 h-10'
+                  resizeMode='contain'
+                />
               </View>
             </View>
 
             <SearchInput />
 
-            <View className="w-full flex-1 pt-5 pb-8">
-              <Text className="text-gray-100 text-lg font-pregular mb-3 ">Latest Videos</Text>
+            <View className='w-full flex-1 pt-5 pb-8'>
+              <Text className='text-gray-100 text-lg font-pregular mb-3 '>
+                Latest Videos
+              </Text>
 
               <Trending posts={latestPosts ?? []} />
             </View>
           </View>
         )}
         ListEmptyComponent={() => (
-          <EmptyState title="No Videos found" subtitle="Be the first one to upload a video" />
+          <EmptyState
+            title='No Videos found'
+            subtitle='Be the first one to upload a video'
+          />
         )}
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
       />
+      <StatusBar backgroundColor='#161622' style='light' />
     </SafeAreaView>
   );
 };
