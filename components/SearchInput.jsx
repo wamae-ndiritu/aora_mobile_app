@@ -26,7 +26,7 @@ const SearchInput = ({
           secureTextEntry={title === "Password" && !showPasssord}
         /> 
         <TouchableOpacity onPress={() => {
-          if (query){
+          if (!query){
             Alert.alert('Missing Query', 'Please input something to search results across database')
           }
 
