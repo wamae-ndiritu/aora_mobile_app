@@ -1,5 +1,5 @@
-import { View, Text, FlatList, Image, RefreshControl, Alert } from "react-native";
-import React, { useEffect, useState } from "react";
+import { View, Text, FlatList, Image, RefreshControl} from "react-native";
+import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {images} from "../../constants";
 import SearchInput from "../../components/SearchInput";
@@ -9,8 +9,10 @@ import { getAllPosts, getLatestPosts } from "../../lib/appwrite";
 import useAppwrite from "../../lib/useAppwrite";
 import VideoCard from "../../components/VideoCard";
 import { StatusBar } from "expo-status-bar";
+import { useGlobalContext } from "../../context/GlobalProvider";
 
 const Home = () => {
+    const { user } = useGlobalContext();
   const {data: posts, refetch} = useAppwrite(getAllPosts);
   const { data: latestPosts } = useAppwrite(getLatestPosts);
 
@@ -22,6 +24,7 @@ const Home = () => {
     await refetch();
     setRefreshing(false);
   }
+
   return (
     <SafeAreaView className='bg-primary h-full'>
       <FlatList
@@ -36,7 +39,7 @@ const Home = () => {
                   Welcome Back
                 </Text>
                 <Text className='text-2xl font-psemibold text-white'>
-                  JSMastery
+                  {user?.username}
                 </Text>
               </View>
               <View className='mt-1.5'>
